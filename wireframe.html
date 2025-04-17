@@ -11,10 +11,14 @@
         />
     </head>
     <body>
-        <nav>
+        <nav class="navbar">
             <div class="name">
                 <h3 class="name-title">ALBRIANE</h3>
             </div>
+            <!-- Add this button -->
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
             <div class="links">
                 <ul>
                     <li><a href="#" class="link active">HOME</a></li>
@@ -101,6 +105,13 @@
                                 <i class="fa-solid fa-database"></i>
                             </div>
                             <h3 class="skill-name">MySQL</h3>
+                        </div>
+
+                        <div class="skill-card">
+                            <div class="skill-icon">
+                                <i class="fa-brands fa-php"></i>
+                            </div>
+                            <h3 class="skill-name">PHP</h3>
                         </div>
                     </div>
                 </div>
@@ -197,21 +208,21 @@
                         <div class="project-card">
                             <div class="project-image">
                                 <img
-                                    src="/api/placeholder/500/300"
+                                    src="todolist.png"
                                     alt="To Do List Application"
                                 />
                             </div>
-                            <h3 class="project-title">
-                                To Do List Application
-                            </h3>
+                            <h3 class="project-title">To Do List Manager</h3>
                             <p class="project-description">
-                                A FlutterFlow-based task management app with
+                                A web-based task management app with
                                 notifications and task categorization.
                             </p>
                             <div class="project-tech">
                                 <span class="tech-tag">HTML</span>
                                 <span class="tech-tag">CSS</span>
                                 <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">PHP</span>
+                                <span class="tech-tag">MYSQL</span>
                             </div>
                             <div class="project-actions">
                                 <a href="#" class="btn btn-sm">View Project</a>
@@ -287,11 +298,11 @@
                         <h3 class="footer-title">Contact Me</h3>
                         <div class="contact-item">
                             <i class="fas fa-envelope"></i>
-                            <p>albrianejay@gmail.com</p>
+                            <p>usman.albrianejay@gmail.com</p>
                         </div>
                         <div class="contact-item">
                             <i class="fas fa-phone"></i>
-                            <p>+92 345 678 901</p>
+                            <p>+977 4244 540</p>
                         </div>
                         <div class="contact-item">
                             <i class="fas fa-map-marker-alt"></i>
@@ -306,4 +317,59 @@
             </div>
         </footer>
     </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const navToggle = document.querySelector(".nav-toggle");
+            const links = document.querySelector(".links");
+            const body = document.body;
+
+            // Toggle navigation
+            navToggle.addEventListener("click", () => {
+                links.classList.toggle("nav-open");
+                navToggle.classList.toggle("nav-open");
+                body.classList.toggle("nav-open");
+            });
+
+            // Close navigation when clicking links
+            document.querySelectorAll(".link").forEach((link) => {
+                link.addEventListener("click", () => {
+                    links.classList.remove("nav-open");
+                    navToggle.classList.remove("nav-open");
+                    body.classList.remove("nav-open");
+                });
+            });
+
+            // Close navigation when clicking outside
+            document.addEventListener("click", (e) => {
+                if (
+                    !e.target.closest(".navbar") &&
+                    links.classList.contains("nav-open")
+                ) {
+                    links.classList.remove("nav-open");
+                    navToggle.classList.remove("nav-open");
+                    body.classList.remove("nav-open");
+                }
+            });
+
+            // Update active link based on scroll position
+            const sections = document.querySelectorAll("section");
+            window.addEventListener("scroll", () => {
+                let current = "";
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop - sectionHeight / 3) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                document.querySelectorAll(".link").forEach((link) => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href").slice(1) === current) {
+                        link.classList.add("active");
+                    }
+                });
+            });
+        });
+    </script>
 </html>
