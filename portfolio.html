@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Albriane Jay Usman | Web Developer</title>
-        <link rel="stylesheet" href="wireframe.css" />
+        <link rel="stylesheet" href="portfolio.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -25,7 +25,6 @@
                     <li><a href="#my-skills" class="link">SKILLS</a></li>
                     <li><a href="#my-projects" class="link">PROJECTS</a></li>
                     <li><a href="#contact" class="link">CONTACT</a></li>
-                    <li><button class="btn">LOG IN</button></li>
                 </ul>
             </div>
         </nav>
@@ -124,7 +123,7 @@
                         <div class="project-card">
                             <div class="project-image">
                                 <img
-                                    src="../PORTFOLIO/lms.png"
+                                    src="lms.png"
                                     alt="Student Management System"
                                 />
                             </div>
@@ -152,10 +151,7 @@
 
                         <div class="project-card">
                             <div class="project-image">
-                                <img
-                                    src="../PORTFOLIO/payroll.png"
-                                    alt="Payroll System"
-                                />
+                                <img src="payroll.png" alt="Payroll System" />
                             </div>
                             <h3 class="project-title">Payroll System</h3>
                             <p class="project-description">
@@ -180,7 +176,7 @@
                         <div class="project-card">
                             <div class="project-image">
                                 <img
-                                    src="../PORTFOLIO/carrental.png"
+                                    src="carrental.png"
                                     alt="Car Rental System"
                                 />
                             </div>
@@ -317,59 +313,5 @@
             </div>
         </footer>
     </body>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const navToggle = document.querySelector(".nav-toggle");
-            const links = document.querySelector(".links");
-            const body = document.body;
-
-            // Toggle navigation
-            navToggle.addEventListener("click", () => {
-                links.classList.toggle("nav-open");
-                navToggle.classList.toggle("nav-open");
-                body.classList.toggle("nav-open");
-            });
-
-            // Close navigation when clicking links
-            document.querySelectorAll(".link").forEach((link) => {
-                link.addEventListener("click", () => {
-                    links.classList.remove("nav-open");
-                    navToggle.classList.remove("nav-open");
-                    body.classList.remove("nav-open");
-                });
-            });
-
-            // Close navigation when clicking outside
-            document.addEventListener("click", (e) => {
-                if (
-                    !e.target.closest(".navbar") &&
-                    links.classList.contains("nav-open")
-                ) {
-                    links.classList.remove("nav-open");
-                    navToggle.classList.remove("nav-open");
-                    body.classList.remove("nav-open");
-                }
-            });
-
-            // Update active link based on scroll position
-            const sections = document.querySelectorAll("section");
-            window.addEventListener("scroll", () => {
-                let current = "";
-                sections.forEach((section) => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    if (scrollY >= sectionTop - sectionHeight / 3) {
-                        current = section.getAttribute("id");
-                    }
-                });
-
-                document.querySelectorAll(".link").forEach((link) => {
-                    link.classList.remove("active");
-                    if (link.getAttribute("href").slice(1) === current) {
-                        link.classList.add("active");
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="portfolio.js"></script>
 </html>
