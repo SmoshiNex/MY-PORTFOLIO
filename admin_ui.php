@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Admin</title>
     <link rel="stylesheet" href="style/admin.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -16,26 +18,30 @@
                 <p>Admin Panel</p>
             </div>
             <ul class="nav-links">
-                <li class="active" data-section="projects">
+                <li data-section="projects">
+                    <i class="fas fa-project-diagram"></i>
                     <span class="nav-item">Projects</span>
                 </li>
-                <li data-section="skills">
+                <li class="active" data-section="skills">
+                    <i class="fas fa-cog"></i>
                     <span class="nav-item">Skills</span>
                 </li>
                 <li data-section="profile">
+                    <i class="fas fa-user"></i>
                     <span class="nav-item">Profile</span>
                 </li>
             </ul>
             <div class="logout">
+                <i class="fas fa-sign-out-alt"></i>
                 <span class="nav-item">Logout</span>
             </div>
         </nav>
 
         <main class="content">
             <!-- Projects Section -->
-            <section id="projects" class="section active">
+            <section id="projects" class="section">
                 <h1>Manage Projects</h1>
-                <button class="add-btn">Add New Project</button>
+                <button class="add-btn" id="addButton">Add New Project</button>
 
                 <div class="projects-grid">
                     <!-- Projects will be loaded dynamically -->
@@ -43,9 +49,9 @@
             </section>
 
             <!-- Skills Section -->
-            <section id="skills" class="section">
+            <section id="skills" class="section active">
                 <h1>Manage Skills</h1>
-                <button class="add-btn">Add New Skill</button>
+                <button class="add-btn" id="addSkills">Add New Skill</button>
 
                 <div class="skills-grid">
                     <!-- Skills will be loaded dynamically -->
@@ -81,7 +87,8 @@
     <!-- Modal for Add/Edit Project -->
     <div id="project-modal" class="modal">
         <div class="modal-content">
-            <h2>Add/Edit Project</h2>
+            <span class="close-modal">&times;</span>
+            <h2>Add New Project</h2>
             <form id="project-form">
                 <div class="form-group">
                     <label>Project Title</label>
@@ -108,8 +115,8 @@
                     <input type="url" name="demo_url">
                 </div>
                 <div class="modal-buttons">
-                    <button type="button" class="cancel-btn">Cancel</button>
                     <button type="submit" class="save-btn">Save Project</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
                 </div>
             </form>
         </div>
@@ -118,19 +125,25 @@
     <!-- Modal for Add/Edit Skill -->
     <div id="skill-modal" class="modal">
         <div class="modal-content">
-            <h2>Add/Edit Skill</h2>
+            <span class="close-modal">&times;</span>
+            <h2>Add New Skill</h2>
             <form id="skill-form">
                 <div class="form-group">
                     <label>Skill Name</label>
                     <input type="text" name="name" required>
                 </div>
                 <div class="form-group">
-                    <label>Icon URL</label>
-                    <input type="text" name="icon_url" required>
+                    <label>Font Awesome Icon Class</label>
+                    <div class="icon-input-group">
+                        <input type="text" name="icon" placeholder="e.g., fab fa-js for JavaScript" required>
+                        <i class="icon-preview"></i>
+                    </div>
+                    <small>Visit <a href="https://fontawesome.com/icons" target="_blank">Font Awesome</a> to find icons.
+                        Use the full class name (e.g., fab fa-js, fas fa-code)</small>
                 </div>
                 <div class="modal-buttons">
-                    <button type="button" class="cancel-btn">Cancel</button>
                     <button type="submit" class="save-btn">Save Skill</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
                 </div>
             </form>
         </div>

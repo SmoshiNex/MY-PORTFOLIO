@@ -13,11 +13,15 @@ class Skill
     public function create($data)
     {
         try {
+            if (empty($data['name']) || empty($data['icon'])) {
+                throw new Exception('Name and icon are required');
+            }
+
             $query = "INSERT INTO {$this->table} (name, icon) VALUES (:name, :icon)";
             $stmt = $this->conn->prepare($query);
             $stmt->execute([
-                ':name' => $data['name'] ?? '',
-                ':icon' => $data['icon_url'] ?? ''
+                ':name' => $data['name'],
+                ':icon' => $data['icon']
             ]);
 
             return [
@@ -70,21 +74,35 @@ class Skill
     public function update($id, $data)
     {
         try {
+            if (empty($id) || empty($data['name']) || empty($data['icon'])) {
+                throw new Exception('ID, name, and icon are required for updates');
+            }
+
+            // First check if the skill exists
+            $checkQuery = "SELECT id FROM {$this->table} WHERE id = :id";
+            $checkStmt = $this->conn->prepare($checkQuery);
+            $checkStmt->execute([':id' => $id]);
+
+            if ($checkStmt->rowCount() === 0) {
+                throw new Exception('Skill not found');
+            }
+
             $query = "UPDATE {$this->table} SET name = :name, icon = :icon WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             $result = $stmt->execute([
                 ':id' => $id,
-                ':name' => $data['name'] ?? '',
-                ':icon' => $data['icon_url'] ?? ''
+                ':name' => $data['name'],
+                ':icon' => $data['icon']
             ]);
-
-            if ($stmt->rowCount() === 0) {
-                throw new Exception('Skill not found or no changes made');
-            }
 
             return [
                 'status' => 'success',
-                'message' => 'Skill updated successfully'
+                'message' => 'Skill updated successfully',
+                'skill' => [
+                    'id' => $id,
+                    'name' => $data['name'],
+                    'icon' => $data['icon']
+                ]
             ];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

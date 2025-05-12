@@ -93,79 +93,41 @@ document.addEventListener("DOMContentLoaded", () => {
         e.target.classList.add("active");
     });
 
-    // Modal Elements
+    // Modal UI handling
     const modal = document.getElementById('loginModal');
     const loginBtn = document.querySelector('.login-btn');
     const closeBtn = document.querySelector('.close-modal');
-    const loginForm = document.getElementById('loginForm');
 
     // Open modal
-    loginBtn.addEventListener('click', () => {
+    loginBtn?.addEventListener('click', () => {
         modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        document.body.style.overflow = 'hidden';
     });
 
     // Close modal
     const closeModal = () => {
         modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Re-enable scrolling
+        document.body.style.overflow = 'auto';
     };
 
-    closeBtn.addEventListener('click', closeModal);
+    closeBtn?.addEventListener('click', closeModal);
 
     // Close modal when clicking outside
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             closeModal();
-        }    });
-    
-    // Handle form submission
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        try {
-            const response = await fetch(`api/account_api.php?action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
-                method: 'GET'
-            });
-
-            const data = await response.json();
-            
-            if (data.status === 'success') {
-                // Create success notification
-                const notification = document.createElement('div');
-                notification.className = 'notification success';                notification.textContent = 'Login successful! Redirecting...';
-                document.body.appendChild(notification);
-                
-                // Redirect to admin dashboard after 1 second
-                setTimeout(() => {
-                    window.location.href = 'admin_ui.php';
-                }, 1000);
-            } else {
-                // Show error notification
-                const notification = document.createElement('div');
-                notification.className = 'notification error';
-                notification.textContent = data.message;
-                document.body.appendChild(notification);
-
-                // Remove notification after 3 seconds
-                setTimeout(() => {
-                    notification.remove();
-                }, 3000);
-            }
-        } catch (error) {
-            console.error('Login error:', error);
-            // Show error notification
-            const notification = document.createElement('div');
-            notification.className = 'notification error';
-            notification.textContent = 'An error occurred. Please try again.';
-            document.body.appendChild(notification);
-
-            // Remove notification after 3 seconds
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
         }
     });
+
+    // Notification handling
+    window.showNotification = (message, type = 'success') => {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    };
 });
