@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Albriane Jay Usman | Web Developer</title>
-        <link rel="stylesheet" href="portfolio.css" />
+        <link rel="stylesheet" href="style/portfolio.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -13,9 +13,9 @@
     <body>
         <nav class="navbar">
             <div class="name">
-                <h3 class="name-title">ALBRIANE</h3>
+                <h3 class="name-title">PORTFOLIO</h3>
             </div>
-            <!-- Add this button -->
+
             <button class="nav-toggle" aria-label="toggle navigation">
                 <span class="hamburger"></span>
             </button>
@@ -25,15 +25,38 @@
                     <li><a href="#my-skills" class="link">SKILLS</a></li>
                     <li><a href="#my-projects" class="link">PROJECTS</a></li>
                     <li><a href="#contact" class="link">CONTACT</a></li>
+                    <button type="submit" class="login-btn">LOGIN</button>
                 </ul>
             </div>
         </nav>
-
+        <!-- Login Modal -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Admin Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            required
+                        />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
         <header class="hero">
             <div class="container">
                 <div class="profile">
                     <div class="profile-image-container">
-                        <img src="pic.jpg" alt="Albriane Jay Usman" />
+                        <img src="img/pic.jpg" alt="Albriane Jay Usman" />
                     </div>
                     <h1 class="profile-name">Albriane Jay Usman</h1>
                     <p class="profile-title">Web Developer & BSIT Student</p>
@@ -123,7 +146,7 @@
                         <div class="project-card">
                             <div class="project-image">
                                 <img
-                                    src="lms.png"
+                                    src="img/lms.png"
                                     alt="Student Management System"
                                 />
                             </div>
@@ -151,7 +174,7 @@
 
                         <div class="project-card">
                             <div class="project-image">
-                                <img src="payroll.png" alt="Payroll System" />
+                                <img src="img/payroll.png" alt="Payroll System" />
                             </div>
                             <h3 class="project-title">Payroll System</h3>
                             <p class="project-description">
@@ -176,7 +199,7 @@
                         <div class="project-card">
                             <div class="project-image">
                                 <img
-                                    src="carrental.png"
+                                    src="img/carrental.png"
                                     alt="Car Rental System"
                                 />
                             </div>
@@ -204,7 +227,7 @@
                         <div class="project-card">
                             <div class="project-image">
                                 <img
-                                    src="todolist.png"
+                                    src="img/todolist.png"
                                     alt="To Do List Application"
                                 />
                             </div>
@@ -312,6 +335,7 @@
                 </div>
             </div>
         </footer>
+
     </body>
-    <script src="portfolio.js"></script>
+    <script src="js/portfolio.js"></script>
 </html>
