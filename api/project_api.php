@@ -24,30 +24,68 @@ try {
             echo json_encode($result);
             break;
 
-        case 'POST':
-            // Create new project
-            $data = [
-                'project_title' => $_POST['title'] ?? null,
-                'project_description' => $_POST['description'] ?? null,
-                'project_tech' => $_POST['technologies'] ?? null,
-                'project_link' => $_POST['demo_url'] ?? null,
-                'github_link' => $_POST['github_url'] ?? null
-            ];
+        case 'POST':            // Create new project or handle update via POST
+            if (isset($_POST['_method']) && $_POST['_method'] === 'PUT') {
+                // This is an update request
+                $id = $_POST['id'] ?? null;
+                if (!$id) {
+                    throw new Exception('Project ID is required');
+                }
 
-            $result = $project->create($data, $_FILES['image'] ?? null);
+                $data = [
+                    'title' => $_POST['title'] ?? null,
+                    'description' => $_POST['description'] ?? null,
+                    'technologies' => $_POST['technologies'] ?? null,
+                    'demo_url' => $_POST['demo_url'] ?? null,
+                    'github_url' => $_POST['github_url'] ?? null
+                ];
+
+                $result = $project->update($id, $data, $_FILES['image'] ?? null);
+            } else {
+                // This is a create request
+                $data = [
+                    'title' => $_POST['title'] ?? null,
+                    'description' => $_POST['description'] ?? null,
+                    'technologies' => $_POST['technologies'] ?? null,
+                    'project_link' => $_POST['demo_url'] ?? null,
+                    'github_link' => $_POST['github_url'] ?? null
+                ];
+
+                $result = $project->create($data, $_FILES['image'] ?? null);
+            }
             echo json_encode($result);
             break;
-
         case 'PUT':
-            // Update existing project
-            parse_str(file_get_contents("php://input"), $putData);
-            $id = $putData['id'] ?? null;
+            // Check if this is a PUT request via POST with _method override
+            if (isset($_POST['_method']) && $_POST['_method'] === 'PUT') {
+                $id = $_POST['id'] ?? null;
+                if (!$id) {
+                    throw new Exception('Project ID is required');
+                }
 
-            if (!$id) {
-                throw new Exception('Project ID is required');
+                // Prepare data for update
+                $data = [
+                    'title' => $_POST['title'] ?? null,
+                    'description' => $_POST['description'] ?? null,
+                    'technologies' => $_POST['technologies'] ?? null,
+                    'demo_url' => $_POST['demo_url'] ?? null,
+                    'github_url' => $_POST['github_url'] ?? null
+                ];
+
+                // Update project with both data and image if present
+                $result = $project->update($id, $data, $_FILES['image'] ?? null);
+            } else {
+                // Handle regular PUT request
+                parse_str(file_get_contents("php://input"), $putData);
+                $id = $putData['id'] ?? null;
+
+                if (!$id) {
+                    throw new Exception('Project ID is required');
+                }
+
+                $result = $project->update($id, $putData, null);
             }
 
-            $result = $project->update($id, $putData, $_FILES['image'] ?? null);
             echo json_encode($result);
             break;
 

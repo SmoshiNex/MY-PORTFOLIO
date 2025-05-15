@@ -97,15 +97,23 @@ h1 {
 
 /* Buttons */
 .add-btn,
-.save-btn {
-    background-color: #2563eb;
+.save-btn,
+.cancel-btn {
     color: #fff;
     border: none;
     padding: 0.75rem 1.5rem;
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 2rem;
     transition: background-color 0.3s;
+    min-width: 120px; /* Ensure minimum width */
+    font-size: 1rem;
+    text-align: center; /* Ensure text is centered */
+}
+
+.add-btn,
+.save-btn {
+    background-color: #2563eb;
+    margin-bottom: 2rem;
 }
 
 .add-btn:hover,
@@ -115,12 +123,7 @@ h1 {
 
 .cancel-btn {
     background-color: #4b5563;
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    margin-bottom: 2rem;
 }
 
 .cancel-btn:hover {
@@ -160,9 +163,8 @@ h1 {
     gap: 0.5rem;
 }
 
-.edit-btn,
-.delete-btn {
-    background-color: rgba(0, 0, 0, 0.5);
+.edit-btn {
+    background-color: #2563eb;
     color: #fff;
     border: none;
     padding: 0.5rem;
@@ -171,8 +173,17 @@ h1 {
     transition: background-color 0.3s;
 }
 
+.delete-btn {
+    background-color: #dc2626;
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 .edit-btn:hover {
-    background-color: #2563eb;
+    background-color: #0e4aca;
 }
 
 .delete-btn:hover {
@@ -402,6 +413,7 @@ textarea {
     }
 
     .modal-buttons button {
-        width: 100%;
+        flex: 1; /* Make buttons take equal width */
+        max-width: 200px; /* Optional: limit maximum width */
     }
 }

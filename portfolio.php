@@ -48,40 +48,42 @@
     </div> <?php include 'get_profile.php'; ?>
     <header class="hero">
         <div class="container">
-            <div class="profile">
-                <div class="profile-image-container">
+            <div class="profile reveal reveal-fade-up" data-delay="100">
+                <div class="profile-image-container reveal reveal-fade-up" data-delay="200">
                     <img src="<?php echo htmlspecialchars($profileData['profile_picture'] ?? 'img/pic.jpg'); ?>"
                         alt="<?php echo htmlspecialchars($profileData['name']); ?>" />
                 </div>
-                <h1 class="profile-name"><?php echo htmlspecialchars($profileData['name']); ?></h1>
-                <p class="profile-title"><?php echo htmlspecialchars($profileData['title']); ?></p>
-                <div class="profile-text">
+                <h1 class="profile-name reveal reveal-fade-up" data-delay="300">
+                    <?php echo htmlspecialchars($profileData['name']); ?>
+                </h1>
+                <p class="profile-title reveal reveal-fade-up" data-delay="400">
+                    <?php echo htmlspecialchars($profileData['title']); ?>
+                </p>
+                <div class="profile-text reveal reveal-fade-up" data-delay="500">
                     <?php if ($profileData['about']): ?>
                         <p><?php echo nl2br(htmlspecialchars($profileData['about'])); ?></p>
                     <?php endif; ?>
                 </div>
-                <div class="profile-actions">
+                <div class="profile-actions" data-delay="600">
                     <a href="#my-projects" class="btn btn-primary">View My Work</a>
                     <a href="#contact" class="btn btn-secondary">Contact Me</a>
                 </div>
             </div>
         </div>
     </header>
-
     <main>
         <section class="my-skills" id="my-skills">
             <div class="container">
-                <h2 class="section-title">MY SKILLS</h2>
-                <div class="skills-list">
+                <h2 class="section-title reveal reveal-fade-up" data-delay="100">MY SKILLS</h2>
+                <div class="skills-list reveal reveal-fade-up" data-delay="300">
                     <?php include 'get_skills.php'; ?>
                 </div>
             </div>
         </section>
-
         <section class="my-projects" id="my-projects">
             <div class="container">
-                <h2 class="section-title">MY PROJECTS</h2>
-                <div class="projects-grid">
+                <h2 class="section-title reveal reveal-fade-up" data-delay="100">MY PROJECTS</h2>
+                <div class="projects-grid reveal reveal-fade-up" data-delay="300">
                     <?php include 'get_projects.php'; ?>
                     <?php if (!empty($projects)): ?>
                         <?php foreach ($projects as $project): ?>
@@ -118,11 +120,10 @@
             </div>
         </section>
     </main>
-
     <footer id="contact">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-about">
+                <div class="footer-about reveal reveal-fade-left">
                     <h3 class="footer-title">About Me</h3>
                     <p>
                         I'm a passionate web developer and BSIT student at
@@ -130,8 +131,7 @@
                         appealing web applications.
                     </p>
                 </div>
-
-                <div class="footer-social">
+                <div class="footer-social reveal reveal-fade-up">
                     <h3 class="footer-title">Connect With Me</h3>
                     <ul class="social-links">
                         <li>
@@ -163,8 +163,7 @@
                         </li>
                     </ul>
                 </div>
-
-                <div class="contact-info">
+                <div class="contact-info reveal reveal-fade-right">
                     <h3 class="footer-title">Contact Me</h3>
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>

@@ -12,7 +12,10 @@
 
 <body>
     <div class="admin-container">
-        <nav class="sidebar">
+        <button class="nav-toggle" aria-label="toggle navigation">
+            <span class="hamburger"></span>
+        </button>
+        <nav class="sidebar nav-links">
             <div class="logo">
                 <h2>PORTFOLIO</h2>
                 <p>Admin Panel</p>
@@ -22,7 +25,7 @@
                     <i class="fas fa-project-diagram"></i>
                     <span class="nav-item">Projects</span>
                 </li>
-                <li class="active" data-section="skills">
+                <li data-section="skills">
                     <i class="fas fa-cog"></i>
                     <span class="nav-item">Skills</span>
                 </li>
@@ -46,10 +49,8 @@
                 <div class="projects-grid">
                     <!-- Projects will be loaded dynamically -->
                 </div>
-            </section>
-
-            <!-- Skills Section -->
-            <section id="skills" class="section active">
+            </section> <!-- Skills Section -->
+            <section id="skills" class="section">
                 <h1>Manage Skills</h1>
                 <button class="add-btn" id="addSkills">Add New Skill</button>
 
@@ -138,8 +139,7 @@
                         <input type="text" name="icon" placeholder="e.g., fab fa-js for JavaScript" required>
                         <i class="icon-preview"></i>
                     </div>
-                    <small>Visit <a href="https://fontawesome.com/icons" target="_blank">Font Awesome</a> to find icons.
-                        Use the full class name (e.g., fab fa-js, fas fa-code)</small>
+
                 </div>
                 <div class="modal-buttons">
                     <button type="submit" class="save-btn">Save Skill</button>

@@ -1,13 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const navToggle = document.querySelector(".nav-toggle");
-    const links = document.querySelector(".links");
-    const body = document.body;
+    // Scroll reveal functionality with improved options
+    const observerOptions = {
+        root: null,
+        rootMargin: '-50px',
+        threshold: 0.15
+    };
 
-    // Toggle navigation
-    navToggle.addEventListener("click", () => {
-        links.classList.toggle("nav-open");
-        navToggle.classList.toggle("nav-open");
-        body.classList.toggle("nav-open");
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Add active class with a slight delay for cascading effect
+                setTimeout(() => {
+                    entry.target.classList.remove('inactive');
+                    entry.target.classList.add('active');
+                }, entry.target.dataset.delay || 0);
+            } else {
+                // Add inactive class when scrolling away
+                entry.target.classList.add('inactive');
+                entry.target.classList.remove('active');
+            }
+        });
+    }, observerOptions);
+
+    // Observe all reveal elements
+    document.querySelectorAll('.reveal').forEach(element => {
+        observer.observe(element);
     });
 
     // Close navigation when clicking links

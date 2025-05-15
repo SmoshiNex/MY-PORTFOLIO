@@ -1,8 +1,42 @@
-// Admin Dashboard JavaScript - Fixed Version
 document.addEventListener('DOMContentLoaded', () => {
+    const navToggle = document.querySelector('.nav-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const content = document.querySelector('.content');
+    const body = document.body;
+
+    // Toggle navigation
+    navToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('nav-open');
+        navToggle.classList.toggle('nav-open');
+        body.classList.toggle('nav-open');
+    });
+
+    // Close navigation when clicking content area
+    content.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768 && sidebar.classList.contains('nav-open')) {
+            sidebar.classList.remove('nav-open');
+            navToggle.classList.remove('nav-open');
+            body.classList.remove('nav-open');
+        }
+    });
+
     // Section switching functionality
     const navLinks = document.querySelectorAll('.nav-links li');
-    const sections = document.querySelectorAll('.section');
+    const sections = document.querySelectorAll('.section');// Get active section from localStorage or default to 'projects'
+    const activeSection = localStorage.getItem('activeSection') || 'projects';
+    
+    // First remove active class from all links and sections
+    navLinks.forEach(link => link.classList.remove('active'));
+    sections.forEach(section => section.classList.remove('active'));
+    
+    // Set initial active section
+    navLinks.forEach(link => {
+        const sectionId = link.getAttribute('data-section');
+        if (sectionId === activeSection) {
+            link.classList.add('active');
+            document.getElementById(sectionId).classList.add('active');
+        }
+    });
 
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
@@ -15,6 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add active class to clicked link and corresponding section
             link.classList.add('active');
             document.getElementById(sectionId).classList.add('active');
+
+            // Store active section in localStorage
+            localStorage.setItem('activeSection', sectionId);
         });
     });
 
@@ -210,18 +247,18 @@ skillForm.addEventListener('submit', async (e) => {
         const mode = projectForm.getAttribute('data-mode');
         const id = projectForm.getAttribute('data-id');
         
-        let method = 'POST';
-        let url = '../api/project_api.php';
-        
-        // If editing existing project, use PUT method and include ID
-        if (mode === 'edit' && id) {
-            method = 'PUT';
-            formData.append('id', id);
-        }
-        
         try {
+            const url = '../api/project_api.php';
+
+            if (mode === 'edit' && id) {
+                // For updates, add the method override and ID
+                formData.append('_method', 'PUT');
+                formData.append('id', id);
+            }
+            
+            // For both new projects and updates, use POST with formData
             const response = await fetch(url, {
-                method: method,
+                method: 'POST',
                 body: formData
             });
             
@@ -232,9 +269,10 @@ skillForm.addEventListener('submit', async (e) => {
                 loadProjects();
                 projectModal.classList.remove('active');
             } else {
-                showNotification(data.message, 'error');
+                showNotification(data.message || 'An error occurred', 'error');
             }
         } catch (error) {
+            console.error('Error:', error);
             showNotification(`Error ${mode === 'edit' ? 'updating' : 'adding'} project`, 'error');
         }
     });

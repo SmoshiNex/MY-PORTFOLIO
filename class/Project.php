@@ -19,13 +19,12 @@ class Project
 
             $query = "INSERT INTO {$this->table} (title, description, image, technologies, project_link, github_link) 
                      VALUES (:title, :description, :image, :technologies, :project_link, :github_link)";
-
             $stmt = $this->conn->prepare($query);
             $stmt->execute([
-                ':title' => $data['project_title'] ?? '',
-                ':description' => $data['project_description'] ?? '',
+                ':title' => $data['title'] ?? '',
+                ':description' => $data['description'] ?? '',
                 ':image' => $image_path,
-                ':technologies' => $data['project_tech'] ?? '',
+                ':technologies' => $data['technologies'] ?? '',
                 ':project_link' => $data['project_link'] ?? '',
                 ':github_link' => $data['github_link'] ?? ''
             ]);
@@ -74,9 +73,7 @@ class Project
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-    }
-
-    // Update a project
+    }    // Update a project
     public function update($id, $data, $file = null)
     {
         try {
@@ -96,26 +93,44 @@ class Project
                 }
             }
 
-            // Add other fields
-            if (isset($data['project_title'])) {
+            // Add other fields if they exist and are not null
+            if (!empty($data['title'])) {
                 $fields[] = "title = :title";
-                $params[':title'] = $data['project_title'];
+                $params[':title'] = $data['title'];
             }
-            if (isset($data['project_description'])) {
+            if (isset($data['description'])) {
                 $fields[] = "description = :description";
-                $params[':description'] = $data['project_description'];
+                $params[':description'] = $data['description'];
             }
-            if (isset($data['project_tech'])) {
+            if (isset($data['technologies'])) {
                 $fields[] = "technologies = :technologies";
-                $params[':technologies'] = $data['project_tech'];
+                $params[':technologies'] = $data['technologies'];
             }
-            if (isset($data['project_link'])) {
+            if (isset($data['demo_url'])) {
+                $fields[] = "project_link = :project_link";
+                $params[':project_link'] = $data['demo_url'];
+            }
+            if (isset($data['github_url'])) {
+                $fields[] = "github_link = :github_link";
+                $params[':github_link'] = $data['github_url'];
+            }
+
+            // Also check for direct project_link and github_link fields
+            if (isset($data['project_link']) && !isset($data['demo_url'])) {
                 $fields[] = "project_link = :project_link";
                 $params[':project_link'] = $data['project_link'];
             }
-            if (isset($data['github_link'])) {
+            if (isset($data['github_link']) && !isset($data['github_url'])) {
                 $fields[] = "github_link = :github_link";
                 $params[':github_link'] = $data['github_link'];
+            }
+
+            // Only proceed with update if there are fields to update
+            if (empty($fields)) {
+                return [
+                    'status' => 'success',
+                    'message' => 'No changes to update'
+                ];
             }
 
             $query = "UPDATE {$this->table} SET " . implode(", ", $fields) . " WHERE id = :id";

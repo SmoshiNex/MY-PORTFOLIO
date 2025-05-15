@@ -19,11 +19,11 @@
     --border-radius: 8px;
     --transition: all 0.3s ease;
 }
-/* Fade-in animation */
-@keyframes fadeIn {
+/* Scroll Reveal Animations */
+@keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(50px);
     }
     to {
         opacity: 1;
@@ -31,25 +31,152 @@
     }
 }
 
-/* Apply animation to sections */
-body {
-    background-color: var(--dark-bg);
-    color: var(--text-light);
-    line-height: 1.6;
-    animation: fadeIn 1s ease-in-out;
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-section {
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Reveal Animations */
+.reveal {
     opacity: 0;
-    animation: fadeIn 1s ease-in-out;
-    animation-fill-mode: forwards;
-    animation-delay: 0.5s;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal.inactive {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* Different animation variations */
+.reveal-fade {
+    opacity: 0;
+    transform: none;
+}
+
+.reveal-fade.active {
+    opacity: 1;
+}
+
+.reveal-slide-left {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.reveal-slide-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-slide-right {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.reveal-slide-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Section title animations */
+.section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.section-title:hover::after {
+    width: 100px;
+}
+
+/* Hidden state for scroll reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+/* Visible state for scroll reveal */
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Reset state when out of view */
+.reveal.inactive {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Different reveal animations */
+.reveal-fade-up {
+    transform: translateY(40px);
+}
+
+.reveal-fade-left {
+    transform: translateX(-40px);
+}
+
+.reveal-fade-right {
+    transform: translateX(40px);
+}
+
+/* Section title specific animation */
+.section-title.reveal {
+    transform: translateY(40px);
+    transition-delay: 0.2s;
+}
+
+/* Apply basic fade to body */
+body {
+    background-image: url("../img/painting-mountain-lake-with-mountain-background.jpg");
+    color: var(--text-light);
+    line-height: 1.6;
 }
 
 /* Add delay for individual sections */
 .hero {
     padding: 80px 0;
-    background: linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));
+    background-image: url("../img/painting-mountain-lake-with-mountain-background.jpg");
     text-align: center;
     animation-delay: 0.5s;
 }
@@ -125,14 +252,27 @@ nav {
     width: 100%;
     top: 0;
     left: 0;
-    background: var(--darker-bg);
+    background: transparent;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(5px);
     z-index: 1000;
-    padding: 1rem;
+    padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.3s ease-in-out;
 }
 
+/* Navbar scroll state */
+.navbar.scrolled {
+    background: transparent;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 1rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation toggle button */
 .nav-toggle {
     display: none;
     background: transparent;
@@ -140,72 +280,85 @@ nav {
     cursor: pointer;
     padding: 0.5rem;
     position: relative;
+    z-index: 9999;
+    width: 30px;
+    height: 30px;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
 }
 
-.login-btn {
-    background: var(--primary-color);
-    color: var(--text-light);
-    padding: 10px 20px;
-    border-radius: var(--border-radius);
-    border: none;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.login-btn:hover {
-    background: var(--secondary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
+/* Hamburger icon */
 .hamburger {
     display: block;
     position: relative;
-}
-
-.hamburger,
-.hamburger::before,
-.hamburger::after {
+    width: 24px;
+    height: 2px;
     background: var(--text-light);
-    width: 2em;
-    height: 3px;
-    border-radius: 1em;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 .hamburger::before,
 .hamburger::after {
     content: "";
     position: absolute;
+    width: 24px;
+    height: 2px;
+    background: var(--text-light);
     left: 0;
+    transition: transform 0.3s ease-in-out;
 }
 
 .hamburger::before {
     top: -8px;
 }
+
 .hamburger::after {
     bottom: -8px;
+}
+
+/* Hamburger animation */
+.nav-toggle.nav-open .hamburger {
+    transform: rotate(45deg);
+    background-color: transparent;
+}
+
+.nav-toggle.nav-open .hamburger::before {
+    transform: translate(0, 8px) rotate(0deg);
+}
+
+.nav-toggle.nav-open .hamburger::after {
+    transform: translate(0, -8px) rotate(90deg);
 }
 
 /* Mobile navigation styles */
 @media (max-width: 768px) {
     .nav-toggle {
         display: block;
-        z-index: 9999;
     }
 
     .links {
         position: fixed;
         top: 0;
-        right: 0;
+        left: 0;
         width: 100%;
-        min-height: 100vh;
-        background: var(--darker-bg);
+        height: 100vh;
+        background: rgba(26, 26, 26, 0.98);
         display: flex;
         justify-content: center;
         align-items: center;
         transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+        visibility: hidden;
+        backdrop-filter: blur(8px);
+        z-index: 998;
+    }
+
+    .links.nav-open {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
     }
 
     .links ul {
@@ -215,23 +368,17 @@ nav {
         gap: 2rem;
     }
 
-    .links.nav-open {
-        transform: translateX(0);
+    .link {
+        font-size: 1.2rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transition-delay: 0.1s;
     }
 
-    /* Hamburger animation */
-    .nav-toggle.nav-open .hamburger {
-        transform: rotate(45deg);
-    }
-
-    .nav-toggle.nav-open .hamburger::before {
-        transform: rotate(90deg);
-        top: 0;
-    }
-
-    .nav-toggle.nav-open .hamburger::after {
-        transform: rotate(90deg);
-        bottom: 0;
+    .nav-open .link {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -340,7 +487,8 @@ body.nav-open {
 /* Hero Section */
 .hero {
     padding: 80px 0;
-    background: linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));
+    background: url(../img/painting-mountain-lake-with-mountain-background.jpg)
+        no-repeat center center/cover;
     text-align: center;
 }
 
@@ -376,18 +524,14 @@ body.nav-open {
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 10px;
-    background: linear-gradient(
-        45deg,
-        var(--primary-color),
-        var(--accent-color)
-    );
+    background: linear-gradient(45deg, var(--dark-bg), var(--darker-bg));
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .profile-title {
-    color: var(--text-muted);
+    color: black;
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 24px;
@@ -423,29 +567,28 @@ section {
     text-align: center;
     font-size: 36px;
     font-weight: 700;
-    margin-bottom: 50px;
+    margin-bottom: 70px;
     position: relative;
-    display: inline-block;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 100%;
+    display: block;
 }
 
 .section-title::after {
     content: "";
     position: absolute;
     bottom: -10px;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 80px;
     height: 4px;
     background: var(--primary-color);
     border-radius: 2px;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 /* Skills Section */
 .my-skills {
-    background-color: var(--light-bg);
+    background: url(../img/painting-mountain-lake-with-mountain-background.jpg)
+        no-repeat center center/cover;
     padding: 80px 0;
 }
 
@@ -500,7 +643,8 @@ section {
 
 /* Projects Section */
 .my-projects {
-    background-color: var(--dark-bg);
+    background: url(../img/painting-mountain-lake-with-mountain-background.jpg)
+        no-repeat center center/cover;
     padding: 80px 0;
 }
 
@@ -884,6 +1028,18 @@ footer {
 #loginForm .btn {
     width: 100%;
     margin-top: 10px;
+}
+
+.login-btn {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: var(--transition);
 }
 
 /* Notification Styles */

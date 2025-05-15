@@ -4,15 +4,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
 
     // Toggle navigation
-    navToggle.addEventListener("click", () => {
-        links.classList.toggle("nav-open");
-        navToggle.classList.toggle("nav-open");
-        body.classList.toggle("nav-open");
-    });
+    if (navToggle) {
+        console.log("Nav toggle found"); // Debug log
+        navToggle.addEventListener("click", (e) => {
+            console.log("Nav toggle clicked"); // Debug log
+            e.preventDefault();
+            e.stopPropagation();
+            links.classList.toggle("nav-open");
+            navToggle.classList.toggle("nav-open");
+            body.classList.toggle("nav-open");
+        });
+    } else {
+        console.log("Nav toggle not found"); // Debug log
+    }
 
     // Close navigation when clicking links
     document.querySelectorAll(".link").forEach((link) => {
-        link.addEventListener("click", () => {
+        link.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent event from bubbling up
             links.classList.remove("nav-open");
             navToggle.classList.remove("nav-open");
             body.classList.remove("nav-open");
@@ -168,4 +177,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 3000);
         }
     });
+
+    // Handle navbar transparency on scroll
+    const navbar = document.querySelector('.navbar');
+    const handleScroll = () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Call once on load
 });
